@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ETH Converter</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; }
+    input { padding: 10px; width: 200px; margin: 10px; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>ETH ↔ USD Converter</h1>
+  <input type="number" id="ethInput" placeholder="ETH" step="0.0001" />
+  <button onclick="convertToUSD()">Convert to USD</button>
+  <br/>
+  <input type="number" id="usdInput" placeholder="USD" step="0.01" />
+  <button onclick="convertToETH()">Convert to ETH</button>
+  <h2 id="result"></h2>
+
+  <script>
+    async function getETHPrice() {
+      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+      const data = await res.json();
+      return data.ethereum.usd;
+    }
+
+    async function convertToUSD() {
+      const eth = parseFloat(document.getElementById("ethInput").value);
+      if (isNaN(eth)) return alert("Enter valid ETH amount");
+      const rate = await getETHPrice();
+      document.getElementById("result").textContent = `${eth} ETH ≈ $${(eth * rate).toFixed(2)}`;
+    }
+
+    async function convertToETH() {
+      const usd = parseFloat(document.getElementById("usdInput").value);
+      if (isNaN(usd)) return alert("Enter valid USD amount");
+      const rate = await getETHPrice();
+      document.getElementById("result").textContent = `$${usd} ≈ ${(usd / rate).toFixed(4)} ETH`;
+    }
+  </script>
+</body>
+</html>
