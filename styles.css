@@ -362,7 +362,7 @@ body {
     box-shadow: 0 8px 20px rgba(0, 112, 186, 0.2);
 }
 
-/* Modal Styles */
+/* Enhanced Modal Styles with Safari Fixes */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -371,6 +371,7 @@ body {
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -378,6 +379,39 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    /* Force hardware acceleration for Safari */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform, opacity;
+}
+
+/* Safari-specific modal overlay fixes */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+    .modal-overlay {
+        /* Lighter background for Safari since it handles transparency differently */
+        background: rgba(0, 0, 0, 0.5);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+    }
+}
+
+/* Alternative Safari detection method */
+@media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-appearance: none) {
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+        }
+    }
+}
+
+/* Safari iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+    .modal-overlay {
+        -webkit-overflow-scrolling: touch;
+        background: rgba(0, 0, 0, 0.6);
+    }
 }
 
 .modal-overlay.show {
@@ -394,19 +428,41 @@ body {
     min-height: 350px;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
     position: relative;
     display: flex;
     flex-direction: column;
-    transform: scale(0.8);
+    transform: scale(0.8) translateZ(0);
+    -webkit-transform: scale(0.8) translateZ(0);
     transition: all 0.3s ease;
     overflow-y: auto;
+    will-change: transform;
+}
+
+/* Safari-specific modal background fix */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+    .modal {
+        background: rgba(255, 255, 255, 0.18);
+        -webkit-backdrop-filter: blur(25px);
+        backdrop-filter: blur(25px);
+    }
+}
+
+/* Safari iOS modal fixes */
+@supports (-webkit-touch-callout: none) {
+    .modal {
+        background: rgba(255, 255, 255, 0.2);
+        -webkit-backdrop-filter: blur(30px);
+        backdrop-filter: blur(30px);
+    }
 }
 
 .modal-overlay.show .modal {
-    transform: scale(1);
+    transform: scale(1) translateZ(0);
+    -webkit-transform: scale(1) translateZ(0);
 }
 
 .modal-header {
@@ -786,4 +842,4 @@ body {
     .value {
         font-size: 0.7rem;
     }
-} 
+}
