@@ -276,6 +276,17 @@ body {
 .value {
     font-weight: 600;
     font-family: Monaco, Menlo, monospace;
+    font-size: 1.1rem !important;
+}
+
+/* Safari-specific fix for blurry result values */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+    .value {
+        font-family: monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
 }
 
 .tip-widget {
@@ -554,6 +565,8 @@ body {
     cursor: text;
     user-select: all;
 }
+
+
 
 .address-input:focus {
     border-color: rgba(255, 255, 255, 0.4);
