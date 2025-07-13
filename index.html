@@ -1,44 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ETH Converter</title>
-  <style>
-    body { font-family: Arial; text-align: center; margin-top: 50px; }
-    input { padding: 10px; width: 200px; margin: 10px; font-size: 16px; }
-    button { padding: 10px 20px; font-size: 16px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eth Converter</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cGF0aCBkPSJNMTYgMkwxNS41IDE0LjVMMTYgMjBMMjQuNSAxNi41TDE2IDJaIiBmaWxsPSIjNjI3RUVBIi8+CiAgPHBhdGggZD0iTTE2IDJMNy41IDE2LjVMMTYgMjBMMTYuNSAxNC41TDE2IDJaIiBmaWxsPSIjQTI3NUQ4IiBmaWxsLW9wYWNpdHk9IjAuNyIvPgogIDxwYXRoIGQ9Ik0xNiAyMS41TDE1LjUgMjkuNUwxNiAzMEwyNC41IDE4TDE2IDIxLjVaIiBmaWxsPSIjNjI3RUVBIi8+CiAgPHBhdGggZD0iTTE2IDMwTDE2IDIxLjVMNy41IDE4TDE2IDMwWiIgZmlsbD0iI0EyNzVEOCIgZmlsbC1vcGFjaXR5PSIwLjciLz4KICA8cGF0aCBkPSJNMTYgMjBMMjQuNSAxNi41TDE2IDE0LjVWMjBaIiBmaWxsPSIjNDY1NDhCIi8+CiAgPHBhdGggZD0iTTcuNSAxNi41TDE2IDIwVjE0LjVMNy41IDE2LjVaIiBmaWxsPSIjNjI3RUVBIi8+Cjwvc3ZnPg==">
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTkwIDExLjI1TDg3LjE4NzUgODEuNTYyNUw5MCA5NS42MjVMMTM4LjkzNzUgOTMuOTM3NUw5MCAxMS4yNVoiIGZpbGw9IiM2MjdFRUEiLz4KICA8cGF0aCBkPSJNOTAgMTEuMjVMNDEuMDYyNSA5My45Mzc1TDkwIDk1LjYyNUw5Mi44MTI1IDgxLjU2MjVMOTAgMTEuMjVaIiBmaWxsPSIjQTI3NUQ4IiBmaWxsLW9wYWNpdHk9IjAuNyIvPgogIDxwYXRoIGQ9Ik05MCA5OC40Mzc1TDg3LjE4NzUgMTY2LjMxMjVMOTAgMTY4Ljc1TDEzOC45Mzc1IDEwMS4yNUw5MCA5OC40Mzc1WiIgZmlsbD0iIzYyN0VFQSIvPgoKICA8cGF0aCBkPSJNOTAwMTY4Ljc1TDkwIDk4LjQzNzVMNDEuMDYyNSAxMDEuMjVMOTAgMTY4Ljc1WiIgZmlsbD0iI0EyNzVEOCIgZmlsbC1vcGFjaXR5PSIwLjciLz4KICA8cGF0aCBkPSJNOTAgOTUuNjI1TDEzOC45Mzc1IDkzLjkzNzVMOTAgODEuNTYyNVY5NS42MjVaIiBmaWxsPSIjNDY1NDhCIi8+CiAgPHBhdGggZD0iTTQxLjA2MjUgOTMuOTM3NUw5MCA5NS42MjVWNzUuNTYyNUw0MS4wNjI1IDkzLjkzNzVaIiBmaWxsPSIjNjI3RUVBIi8+Cjwvc3ZnPg==">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>ETH ↔ USD Converter</h1>
-  <input type="number" id="ethInput" placeholder="ETH" step="0.0001" />
-  <button onclick="convertToUSD()">Convert to USD</button>
-  <br/>
-  <input type="number" id="usdInput" placeholder="USD" step="0.01" />
-  <button onclick="convertToETH()">Convert to ETH</button>
-  <h2 id="result"></h2>
+    <div class="shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
 
-  <script>
-    async function getETHPrice() {
-      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
-      const data = await res.json();
-      return data.ethereum.usd;
-    }
+    <div class="container">
+        <div class="header">
+            <h1 class="title">ETH Converter</h1>
+            <p class="subtitle">Convert between Wei, Gwei, ETH, and USD with ease</p>
+        </div>
 
-    async function convertToUSD() {
-      const eth = parseFloat(document.getElementById("ethInput").value);
-      if (isNaN(eth)) return alert("Enter valid ETH amount");
-      const rate = await getETHPrice();
-      document.getElementById("result").textContent = `${eth} ETH ≈ $${(eth * rate).toFixed(2)}`;
-    }
+        <div class="card">
+            <div class="logo">Ξ</div>
 
-    async function convertToETH() {
-      const usd = parseFloat(document.getElementById("usdInput").value);
-      if (isNaN(usd)) return alert("Enter valid USD amount");
-      const rate = await getETHPrice();
-      document.getElementById("result").textContent = `$${usd} ≈ ${(usd / rate).toFixed(4)} ETH`;
-    }
-  </script>
+            <div class="input-section">
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        class="input" 
+                        placeholder="Enter amount"
+                        id="amountInput"
+                        autocomplete="off"
+                    >
+                    <select class="select" id="unitSelect">
+                        <option value="wei">Wei</option>
+                        <option value="gwei">Gwei</option>
+                        <option value="eth" selected>ETH</option>
+                        <option value="usd">USD</option>
+                    </select>
+                </div>
+                <button class="button" id="convertBtn">Convert</button>
+            </div>
+
+            <div class="results" id="resultsDiv">
+                <div class="result">
+                    <span class="label">Wei:</span>
+                    <span class="value" id="weiValue">0</span>
+                </div>
+                <div class="result">
+                    <span class="label">Gwei:</span>
+                    <span class="value" id="gweiValue">0</span>
+                </div>
+                <div class="result">
+                    <span class="label">ETH:</span>
+                    <span class="value" id="ethValue">0</span>
+                </div>
+                <div class="result">
+                    <span class="label">USD:</span>
+                    <span class="value" id="usdValue">$0.00</span>
+                </div>
+            </div>
+
+            <div class="tip-widget">
+                <div class="tip-header">
+                    <span class="tip-icon">💝</span>
+                    <span class="tip-text">Enjoying the converter? Tips appreciated!</span>
+                </div>
+                <div class="tip-methods">
+                    <button class="tip-button metamask" id="metamaskBtn">
+                        <div class="tip-method-icon" style="color: #f6851b;">🧡</div>
+                        <div class="tip-method-text">MetaMask</div>
+                    </button>
+                    <button class="tip-button cashapp" onclick="window.open('https://cash.app/$thomaslee2018', '_blank')">
+                        <div class="tip-method-icon">💚</div>
+                        <div class="tip-method-text">Cash App</div>
+                    </button>
+                    <button class="tip-button cashapp" onclick="window.open('https://www.paypal.com/paypalme/tjl352', '_blank')">
+                        <div class="tip-method-icon">💙</div>
+                        <div class="tip-method-text">PayPal</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">
+                    <span id="modalIcon"></span>
+                    <span id="modalTitleText">Payment</span>
+                </div>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-</html>
+</html> 
