@@ -159,7 +159,7 @@ function openModal(type) {
                 '<div class="metamask-title">Send ETH Tip</div>' +
                 '<div class="metamask-instructions">Copy the address below and paste it into your MetaMask wallet to send a tip.</div>' +
                 '<div class="address-container">' +
-                    '<input type="text" class="address-input" value="0x742d35Cc6734C0532925a3b8D369d7763BeD04e5" readonly id="ethAddress">' +
+                    '<input type="text" class="address-input" value="0x2680D5376E53C9C832E31e753c23fEd6686bB1a2" readonly id="ethAddress">' +
                     '<button class="copy-button" id="copyAddressBtn">📋</button>' +
                 '</div>' +
                 '<div class="copy-success" id="copySuccess">Address copied to clipboard!</div>' +
